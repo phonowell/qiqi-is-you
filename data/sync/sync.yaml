@@ -1,0 +1,4 @@
+- data/sync/kokoro.yaml@react
+- data/sync/mock.yaml
+- data/sync/sync.yaml@react
+- data/sync/task.yaml@react

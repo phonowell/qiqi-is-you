@@ -1,0 +1,37 @@
+@import '../include/basic'
+
+#level
+  .item
+    absolute left top
+    transition transform 300ms
+    animation fadeIn 300ms both
+
+    &.is-text
+      &:before
+        content ''
+        absolute left 5% top 5%
+        width calc(90% - 0.04rem * 2)
+        height calc(90% - 0.04rem * 2)
+        background-color rgba(#000, 0.1)
+        border 0.04rem dashed rgba(#000, 0.5)
+
+      &:after
+        absolute left top 50%
+        transform translateY(-50%)
+        width 100%
+        height auto
+        font-size 0.28rem
+
+    for type in 'IS' 'KLEE' 'PUSH' 'QIQI' 'ROCK' 'WIN' 'YOU'
+      &.type-{type}
+        &:after
+          content type
+
+    &.type-klee
+      background-color #e74c3c
+
+    &.type-qiqi
+      background-color #5dade2
+
+    &.type-rock
+      background-color #f5b041

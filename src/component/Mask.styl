@@ -1,0 +1,23 @@
+@import '../include/basic'
+
+#mask
+  fixed left top
+  width 100vw
+  height 100vh
+  display flex
+  will-change opacity
+  background-color rgba(#000, 0.8)
+  user-select none
+  z-index 10
+  backdrop-filter blur(4px)
+  animation fadeIn 300ms both
+
+  &.leaving
+    animation fadeOut 300ms both
+
+  .float
+    position relative
+    margin auto
+    animation slideInTop 500ms $ease-in-out-back 100ms both
+    will-change opacity transform
+    z-index 15

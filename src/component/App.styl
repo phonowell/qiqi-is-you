@@ -1,0 +1,35 @@
+@import '../include/basic'
+@import '../include/animation'
+
+normalize-css()
+global-reset()
+
+html, body
+  scroll-behavior smooth
+  text-align center
+  background #fafafa
+
+html
+  font-size 50px
+
+#app
+  position relative
+  width 100%
+  max-width 7.5rem
+  min-height 100vh
+  margin 0 auto
+  text-align center
+  font-size 0
+  overflow hidden
+  user-select none
+  -webkit-tap-highlight-color rgba(#000, 0)
+
+  hr
+    border 0
+    height 0.04rem
+    margin 0.4rem auto
+    background-color rgba(#000, 0.5)
+
+  .msg
+    position absolute
+    pointer-events none

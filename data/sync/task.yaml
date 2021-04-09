@@ -1,0 +1,8 @@
+- task/alice.ts
+- task/build.ts@react
+- task/end.ts@react
+- task/publish.ts@react
+- task/sync.ts
+- task/tsconfig.json
+- task/update.ts
+- task/watch.ts@react

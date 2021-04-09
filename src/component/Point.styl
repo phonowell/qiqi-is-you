@@ -1,0 +1,52 @@
+@import '../include/basic'
+
+#point
+  position fixed
+  width 0.5rem
+  height @width
+  margin-left @width * -0.5
+  margin-top @margin-left
+  pointer-events none
+  z-index 255
+  display none
+
+  &:before
+    absolute left top
+    content ''
+    size 100%
+    background-color rgba(#000, 0)
+    box-shadow 0 0 0 0.05rem rgba(#fb7299, 0.25)
+    border-radius 50%
+    animation zoom-pointer-a 200ms linear 100ms both
+
+  &:after
+    absolute left 10% top 10%
+    content ''
+    size 80%
+    background-color rgba(#fb7299, 0.2)
+    border-radius 50%
+    animation zoom-pointer-b 200ms linear both
+
+  &.visible
+    display block
+
+// animation
+@keyframes zoom-pointer-a
+  0%
+    opacity 0
+    transform scale(0.8)
+
+  50%
+    opacity 1
+    transform scale(1)
+
+  100%
+    opacity 0
+    transform scale(1.2)
+
+@keyframes zoom-pointer-b
+  0%, 100%
+    opacity 0
+
+  50%
+    opacity 1

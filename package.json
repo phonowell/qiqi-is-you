@@ -1,0 +1,58 @@
+{
+  "browserslist": {
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ],
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ]
+  },
+  "dependencies": {
+    "ismobilejs": "^1.1.1",
+    "lodash": "^4.17.21",
+    "nib": "^1.1.2",
+    "prettier": "^2.2.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "^4.0.3"
+  },
+  "devDependencies": {
+    "@koa/cors": "^3.1.0",
+    "@types/koa": "^2.13.1",
+    "@types/koa-router": "^7.4.1",
+    "@types/lodash": "^4.14.168",
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.3",
+    "@typescript-eslint/eslint-plugin": "^4.19.0",
+    "@typescript-eslint/parser": "^4.19.0",
+    "eslint": "^7.22.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "fire-keeper": "^0.0.188",
+    "koa": "^2.13.1",
+    "koa-body": "^4.2.0",
+    "koa-router": "^10.0.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3",
+    "web-vitals": "^1.1.1"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "scripts": {
+    "alice": "ts-node --project ./task/tsconfig.json task/alice",
+    "build": "react-scripts build",
+    "publish": "npm run alice publish",
+    "mock": "ts-node --project ./task/tsconfig.json task/mock",
+    "start": "sudo PORT=80 react-scripts start",
+    "test": "react-scripts test",
+    "watch": "npm run alice watch"
+  }
+}

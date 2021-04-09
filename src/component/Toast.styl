@@ -1,0 +1,45 @@
+@import '../include/basic'
+
+#toast
+  position fixed
+  left calc((100vw - 6rem) * 0.5)
+  top 10vh
+  will-change opacity
+  width 6rem
+  z-index 150
+  font-size 0
+  pointer-events none
+
+  .item
+    $box()
+    will-change opacity, transform
+    width 100%
+    margin 0 auto 0.2rem
+    text-align center
+
+    .inner
+      display inline-block
+      text-align left
+      line-height 1.5
+      font-size 0.24rem
+      background-color rgba(#000, 0.8)
+      color #fff
+      padding 1em 1.5em
+      margin 0 auto
+      border-radius 1.75em
+      word-wrap break-word
+      word-break break-all
+      animation fadeIn-toast 300ms both
+
+  p
+    margin 0 auto
+    padding 0
+
+@keyframes fadeIn-toast
+  0%
+    opacity 0
+    transform scale(0.8)
+
+  100%
+    opacity 1
+    transform scale(1)
