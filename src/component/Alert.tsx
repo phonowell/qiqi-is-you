@@ -5,7 +5,7 @@ import React from 'react'
 
 type Props = {
   message: string
-  setNameMask: (value: string) => void
+  setMask: (input: string) => void
   yes?: string
 }
 
@@ -26,7 +26,7 @@ const Alert: React.FC<Props> = props => {
     setTextYes(props.yes || '确定')
   }, [props.yes])
 
-  const close = () => props.setNameMask('')
+  const close = () => props.setMask('')
 
   return (
     <div

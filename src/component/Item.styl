@@ -1,0 +1,79 @@
+@import '../include/basic'
+
+#level
+  .item
+    absolute left top
+    transition transform 300ms
+    animation fadeIn 300ms both
+
+    &:before, &:after
+      content ''
+      absolute left top
+      size 100%
+      background-size cover
+
+    &:after
+      transform scale(0.8)
+
+    &.status-float
+      z-index 5
+
+      &:before
+        width 60%
+        height 20%
+        top auto
+        left 20%
+        bottom 0
+        background-color rgba(#000, 0.2)
+        border-radius 50%
+
+      &:after
+        transform scale(0.8) translateY(-0.2rem)
+
+    &.status-text
+      &:before
+        left 5%
+        top 5%
+        width calc(90% - 0.04rem * 2)
+        height calc(90% - 0.04rem * 2)
+        background-color rgba(#000, 0.1)
+        border 0.04rem solid rgba(#000, 0.5)
+        border-radius 0.16rem
+        box-shadow 0 0.04rem 0 rgba(#000, 0.5)
+
+      &:after
+        top 50%
+        transform translateY(-50%)
+        width 100%
+        height auto
+        font-size 0.24rem
+
+    for type in 'FLOAT' 'IS' 'KLEE' 'PUSH' 'QIQI' 'ROCK' 'SINK' 'STOP' 'WATER' 'WIN' 'YOU'
+      &.type-{type}
+        &:after
+          content type
+
+    &.type-klee
+      &:after
+        background-color #c33c40
+        background-image url('../static/item/klee.png')
+        border-radius 50%
+        box-shadow 0 0 0 0.04rem @background-color
+
+    &.type-qiqi
+      &:after
+        background-color #bbc2ea
+        background-image url('../static/item/qiqi.png')
+        border-radius 50%
+        box-shadow 0 0 0 0.04rem @background-color
+
+    &.type-rock
+      &:after
+        background-color #d9aa63
+        background-image url('../static/item/rock.png')
+
+    &.type-water
+      &:after
+        background-color #599cc3
+        background-image url('../static/item/water.png')
+        transform scale(1)

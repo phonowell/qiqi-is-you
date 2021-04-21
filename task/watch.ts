@@ -58,7 +58,7 @@ class Compiler {
   }
 }
 
-const main = async (): Promise<void> => {
+const main = (): void => {
 
   // catch error
   process.on('uncaughtException', (e) => $i(e.stack))

@@ -1,4 +1,5 @@
-import Level, { Item as ItemLevel, Ref as RefLevel } from './Level'
+import CptLeveL, { Ref as RefLevel } from './Level'
+import { ItemRaw, listValid } from '../module/Item'
 import React from 'react'
 
 // interface
@@ -9,32 +10,26 @@ type Props = {
 
 type Size = [number, number]
 
-// variable
-
-const listBrush = [
-  'IS',
-  'KLEE',
-  'PUSH',
-  'QIQI',
-  'ROCK',
-  'WIN',
-  'YOU',
-  'klee',
-  'qiqi',
-  'rock',
-]
-
 // function
 
-const button = (
-  text: string,
-  callback: () => void,
-) => (
-  <div
-    className='btn'
-    onClick={callback}
-  >{text}</div>
-)
+const button: {
+  (text: string, callback: () => void): JSX.Element
+  (text: string, className: string, callback: () => void): JSX.Element
+} = (
+  ...args: [string, () => void] | [string, string, () => void]
+) => {
+
+    const [text, className, callback] = args.length === 2
+      ? [args[0], '', args[1]]
+      : args
+
+    return (
+      <div
+        className={`btn ${className}`.trim()}
+        onClick={callback}
+      >{text}</div>
+    )
+  }
 
 const changeBrush = (
   props: Props,
@@ -43,12 +38,14 @@ const changeBrush = (
 ) => {
 
   // eslint-disable-next-line no-alert
-  const stringBrush = (window.prompt('Set Brush', brush) || '').trim()
+  let stringBrush = (window.prompt('Set Brush', brush) || '').trim()
 
   if (!stringBrush) return
+  if (stringBrush[0].toUpperCase() === stringBrush[0])
+    stringBrush = stringBrush.toUpperCase()
   if (stringBrush === brush) return
 
-  if (!listBrush.includes(stringBrush)) {
+  if (!listValid.includes(stringBrush)) {
     props.showToast(`Invalid brush: '${stringBrush}'`)
     return
   }
@@ -103,14 +100,14 @@ const changeTitle = (
   props.showToast(`Title: '${title}' -> '${stringTitle}'`)
 }
 
+// component
+
 const Editor: React.FC<Props> = props => {
 
   const [brush, setBrush] = React.useState('qiqi')
-  const [listItem, setListItem] = React.useState<ItemLevel[]>([])
+  const [listItem, setListItem] = React.useState<ItemRaw[]>([])
   const [size, setSize] = React.useState<Size>([1, 1])
   const [title, setTitle] = React.useState('QIQI IS YOU')
-
-  React.useEffect(() => load(), [])
 
   const $level: RefLevel = React.useRef(null)
 
@@ -124,6 +121,7 @@ const Editor: React.FC<Props> = props => {
     setSize(data.size)
     setTitle(data.title)
   }
+  React.useEffect(load, [])
 
   const save = () => {
     if (!$level.current) return
@@ -142,7 +140,7 @@ const Editor: React.FC<Props> = props => {
   return (
     <div id='editor'>
 
-      <Level
+      <CptLeveL
         ref={$level}
         brush={brush}
         listItem={listItem}
@@ -150,15 +148,20 @@ const Editor: React.FC<Props> = props => {
         size={size}
         title={title}
         width={7.5}
-      ></Level>
+      ></CptLeveL>
 
       <hr />
-      {button('Set Brush', () => changeBrush(props, brush, setBrush))}
-      {button('Set Size', () => changeSize(props, size, setSize))}
-      {button('Set Title', () => changeTitle(props, title, setTitle))}
+      {button('Save', 'btn-1', save)}
 
       <hr />
-      {button('Save', save)}
+
+      <div
+        className='btn btn-1'
+        onClick={() => changeBrush(props, brush, setBrush)}
+      >{`Brush: ${brush}`}</div>
+
+      {button('Set Size', 'btn-2', () => changeSize(props, size, setSize))}
+      {button('Set Title', 'btn-2', () => changeTitle(props, title, setTitle))}
 
     </div>
   )

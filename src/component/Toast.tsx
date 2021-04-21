@@ -11,21 +11,30 @@ type Props = {
 
 // function
 
+const clearTimer = (
+  timer: React.MutableRefObject<number>,
+) => {
+  if (!timer.current) return
+  window.clearTimeout(timer.current)
+}
+
+// component
+
 const Toast: React.FC<Props> = props => {
 
   const timer = React.useRef(0)
-  const [list, setList] = React.useState<Item[]>([])
+  const [listMessage, setListMessage] = React.useState<Item[]>([])
 
   const reduce = React.useCallback((): void => {
 
-    setList(_list => {
-      if (!_list.length) return [..._list]
+    setListMessage(list => {
+      if (!list.length) return [...list]
 
-      const listNew = _list.slice(1)
+      const listNew = list.slice(1)
 
       if (listNew.length) {
-        if (timer.current) clearTimeout(timer.current)
-        timer.current = window.setTimeout(() => reduce(), 500)
+        clearTimer(timer)
+        timer.current = window.setTimeout(reduce, 500)
       }
 
       return listNew
@@ -36,51 +45,40 @@ const Toast: React.FC<Props> = props => {
 
     if (!props.message) return
 
-    const listText = props.message
+    const listMsg = props.message
       .replace(/<br>/g, '\n')
       .split('\n')
 
-    setList(_list => {
+    setListMessage(list => {
       const listNew = [
-        ..._list,
-        listText,
+        ...list,
+        listMsg,
       ]
       if (listNew.length > 3) listNew.shift()
       return listNew
     })
 
-    if (timer.current) clearTimeout(timer.current)
-    timer.current = window.setTimeout(() => reduce(), 2e3 - 500)
+    clearTimer(timer)
+    timer.current = window.setTimeout(reduce, 2e3 - 500)
   }, [props.message, reduce])
 
-  return (
-    <>
+  return (<>{listMessage.length
+    ? <div id='toast'>
       {
-        list.length
-          ? (
-            <div // #toast
-              id='toast'
-            >
-              {
-                list.map((item, i) => (
-                  <div // .item
-                    className='item'
-                    key={`item-${i}-toast`}
-                  >
-                    <div // .inner
-                      className='inner'
-                    >
-                      {item.map((text, j) => <p key={`${j}:${text}`}>{text}</p>)}
-                    </div>
-                  </div>
-                ))
-              }
+        listMessage.map((item, i) => (
+          <div
+            className='item'
+            key={`item-${i}-toast`}
+          >
+            <div className='inner'>
+              {item.map((text, j) => <p key={`${j}:${text}`}>{text}</p>)}
             </div>
-          )
-          : null
+          </div>
+        ))
       }
-    </>
-  )
+    </div>
+    : null
+  }</>)
 }
 
 // export

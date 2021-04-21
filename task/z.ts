@@ -2,12 +2,14 @@ import $ from 'fire-keeper'
 
 // function
 
-async function main(): Promise<void> {
-  $.compile_([
-    './src/include/other/count-down.pug',
-    './src/include/other/count-down.styl',
-    './src/include/other/count-down.coffee',
-  ])
+const main = async (): Promise<void> => {
+  await $.sleep_(20)
+
+  const a = new Map()
+  const b = { b: 'b???' }
+  a.set('b', b)
+
+  console.log(a.get('b') === b)
 }
 
 // export

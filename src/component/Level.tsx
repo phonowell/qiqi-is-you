@@ -1,50 +1,47 @@
+import './Item.css'
 import './Level.css'
+import Input, { Action } from './Input'
+import Level, { ItemRender } from '../module/Level'
+import { ItemRaw } from '../module/Item'
 import React from 'react'
 
 // interface
 
-type Item = {
-  id?: string
-  type: string
-  x: number
-  y: number
-}
+type Direction = 'left' | 'right' | 'top' | 'bottom'
 
 type Props = {
   brush: string
   isEditable: boolean
-  listItem: Item[]
+  listItem: ItemRaw[]
   ref: Ref
-  size: [number, number]
+  size: Size
   title: string
   width: number
 }
 
 type Ref = React.Ref<{
-  listItem: Item[]
-  setListItem: (input: Item[]) => void
+  listItem: ItemRaw[]
   size: [number, number]
   title: string
 }>
 
-// function
+type Size = [number, number]
 
-const Level: React.FC<Props> = React.forwardRef((
+// variable
+
+const level = new Level()
+
+// component
+
+const CptLeveL: React.FC<Props> = React.forwardRef((
   props,
   ref: Ref,
 ) => {
 
-  const [listItem, setListItem] = React.useState<Item[]>([])
   React.useEffect(() => {
-    setListItem(
-      [...props.listItem].map(it => ({
-        id: makeId(),
-        type: it.type,
-        x: it.x,
-        y: it.y,
-      })),
-    )
-  }, [props.listItem])
+    level.load(props.listItem, props.size)
+    render()
+  }, [props.listItem, props.size])
 
   const [size, setSize] = React.useState(0)
   React.useEffect(() => {
@@ -70,7 +67,6 @@ const Level: React.FC<Props> = React.forwardRef((
   const $level = React.useRef<HTMLDivElement>(null)
   React.useImperativeHandle(ref, () => ({
     listItem,
-    setListItem,
     size: props.size,
     title: props.title,
   }))
@@ -87,37 +83,32 @@ const Level: React.FC<Props> = React.forwardRef((
     const x = Math.floor((e.pageX - rectLevel.left) / rem / size)
     const y = Math.floor((e.pageY - rectLevel.top) / rem / size)
 
-    const listIt = getItemByPosition(x, y)
-    if (listIt.length) {
-      removeItem(listIt)
-      return
-    }
+    const list2bRemoved = level.getByPosition(x, y)
+    if (list2bRemoved.length) level.remove(list2bRemoved)
+    else level.add({ type: props.brush, x, y })
 
-    setListItem(list => [
-      ...list,
-      {
-        id: makeId(),
-        type: props.brush,
-        x,
-        y,
-      },
-    ])
+    render()
   }
 
-  const getItemByPosition = (
-    x: number,
-    y: number,
-  ): Item[] => listItem.filter(it => it.x === x && it.y === y)
-
-  const removeItem = (
-    listIt: Item[],
+  const input = (
+    name: Action,
+    data?: unknown,
   ) => {
-    if (!listIt.length) return
-    const listId = listIt.map(it => it.id)
-    setListItem(list => list.filter(it => !listId.includes(it.id)))
+    // console.log(name, data)
+    if (name === 'move') level.move(data as Direction)
+    render()
   }
 
-  return (
+  const [listItem, setListItem] = React.useState<ItemRender[]>([])
+  const [listRule, setListRule] = React.useState<string[]>([])
+  const render = () => {
+    const ts = Date.now()
+    setListItem(level.render())
+    setListRule(level.renderRule())
+    console.log(`renderred in ${Date.now() - ts} ms`)
+  }
+
+  return (<>
     <div id='level'
       onClick={edit}
       ref={$level}
@@ -129,10 +120,8 @@ const Level: React.FC<Props> = React.forwardRef((
             className={
               [
                 'item',
+                ...item.status.map(status => `status-${status}`),
                 `type-${item.type}`,
-                item.type[0].toUpperCase() === item.type[0]
-                  ? 'is-text'
-                  : '',
               ].join(' ').trim()
             }
             key={item.id}
@@ -145,13 +134,17 @@ const Level: React.FC<Props> = React.forwardRef((
         ))
       }
     </div>
-  )
+
+    <div id='rule'>
+      {listRule.map((rule, i) => <p key={i}>{rule}</p>)}
+    </div>
+
+    <Input
+      emit={input}
+    ></Input>
+  </>)
 })
 
-const makeId = () => Math.random()
-  .toString(36)
-  .slice(-8)
-
 // export
-export type { Item, Ref }
-export default Level
+export type { Ref }
+export default CptLeveL

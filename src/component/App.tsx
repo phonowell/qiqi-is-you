@@ -6,9 +6,7 @@ import React from 'react'
 import Toast from './Toast'
 import setRem from '../function/setRem'
 
-// variable
-
-// function
+// component
 
 const App: React.FC = () => {
 

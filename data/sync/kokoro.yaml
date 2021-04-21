@@ -1,3 +1,4 @@
+- .env
 - .eslintrc.yaml
 - .gitignore@react
 - .npmignore
