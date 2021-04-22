@@ -105,7 +105,7 @@ const CptLeveL: React.FC<Props> = React.forwardRef((
     const ts = Date.now()
     setListItem(level.render())
     setListRule(level.renderRule())
-    console.log(`renderred in ${Date.now() - ts} ms`)
+    console.log(`Renderred in ${Date.now() - ts} ms`)
   }
 
   return (<>

@@ -5,6 +5,8 @@
     absolute left top
     transition transform 300ms
     animation fadeIn 300ms both
+    image-rendering crisp-edges
+    image-rendering -webkit-optimize-contrast
 
     &:before, &:after
       content ''
@@ -32,23 +34,25 @@
 
     &.status-text
       &:before
-        left 5%
-        top 5%
-        width calc(90% - 0.04rem * 2)
-        height calc(90% - 0.04rem * 2)
-        background-color rgba(#000, 0.1)
-        border 0.04rem solid rgba(#000, 0.5)
-        border-radius 0.16rem
-        box-shadow 0 0.04rem 0 rgba(#000, 0.5)
+        left 1%
+        top 1%
+        width 98%
+        height 98%
+        background-color rgba(#000, 0.5)
+        border-radius 0.08rem
 
       &:after
+        left 5%
         top 50%
         transform translateY(-50%)
-        width 100%
+        width 90%
         height auto
-        font-size 0.24rem
+        font-size 0.2rem
+        font-weight bold
+        color #fff
+        word-break break-all
 
-    for type in 'FLOAT' 'IS' 'KLEE' 'PUSH' 'QIQI' 'ROCK' 'SINK' 'STOP' 'WATER' 'WIN' 'YOU'
+    for type in 'ALL' 'DEFEAT' 'EMPTY' 'HOT' 'IS' 'KLEE' 'MELT' 'MORE' 'OPEN' 'PUSH' 'QIQI' 'ROCK' 'SHUT' 'SINK' 'STOP' 'TEXT' 'WATER' 'WEAK' 'WIN' 'YOU'
       &.type-{type}
         &:after
           content type

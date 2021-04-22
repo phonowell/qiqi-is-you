@@ -9,6 +9,7 @@ type ItemRaw = {
 // variable
 
 const listLeftValid = [
+  'ALL',
   'KLEE',
   'QIQI',
   'ROCK',
@@ -16,11 +17,22 @@ const listLeftValid = [
   'WATER',
 ]
 
+const listLogicValid = [
+  'IS',
+]
+
 const listRightValid = [
-  'FLOAT',
+  'DEFEAT',
+  'EMPTY',
+  'HOT',
+  'MELT',
+  'MORE',
+  'OPEN',
   'PUSH',
+  'SHUT',
   'SINK',
   'STOP',
+  'WEAK',
   'WIN',
   'YOU',
 ]
@@ -28,8 +40,8 @@ const listRightValid = [
 const listValid = [
   ...listLeftValid,
   ...listLeftValid.map(it => it.toLowerCase()),
+  ...listLogicValid,
   ...listRightValid,
-  'IS',
 ]
 
 // function
@@ -50,7 +62,7 @@ class Item {
     this.y = data.y
   }
 
-  static makeId(): string {
+  private static makeId(): string {
     return Math.random()
       .toString(36)
       .slice(-8)
@@ -68,13 +80,20 @@ class Item {
       : this.type
 
     const setRule = mapRule.get(type)
-    if (!setRule) return false
+    if (setRule && setRule.has(status)) return true
 
-    return setRule.has(status)
+    const setRuleAll = mapRule.get('all')
+    if (setRuleAll && setRuleAll.has(status)) return true
+
+    return false
   }
 
   isLeft(): boolean {
     return listLeftValid.includes(this.type)
+  }
+
+  isLogic(): boolean {
+    return listLogicValid.includes(this.type)
   }
 
   isRight(): boolean {

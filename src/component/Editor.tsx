@@ -38,7 +38,7 @@ const changeBrush = (
 ) => {
 
   // eslint-disable-next-line no-alert
-  let stringBrush = (window.prompt('Set Brush', brush) || '').trim()
+  let stringBrush = (window.prompt(`Set Brush (${listValid.join(', ')})`, brush) || '').trim()
 
   if (!stringBrush) return
   if (stringBrush[0].toUpperCase() === stringBrush[0])
@@ -151,9 +151,6 @@ const Editor: React.FC<Props> = props => {
       ></CptLeveL>
 
       <hr />
-      {button('Save', 'btn-1', save)}
-
-      <hr />
 
       <div
         className='btn btn-1'
@@ -162,6 +159,11 @@ const Editor: React.FC<Props> = props => {
 
       {button('Set Size', 'btn-2', () => changeSize(props, size, setSize))}
       {button('Set Title', 'btn-2', () => changeTitle(props, title, setTitle))}
+
+      <hr />
+      {button('Save', 'btn-1', save)}
+      {button('Import', 'btn-2', () => null)}
+      {button('Export', 'btn-2', () => null)}
 
     </div>
   )
