@@ -13,9 +13,7 @@ class Compiler {
   list: string[] = []
 
   constructor() {
-    setInterval(() => {
-      this.next()
-    }, 1e3)
+    setInterval(this.next, 1e3)
   }
 
   add(
@@ -26,11 +24,12 @@ class Compiler {
       this.list.push(source)
   }
 
-  compileStyl = async (
+  static async compileStyl(
     source: string,
-  ): Promise<void> => {
+  ): Promise<void> {
 
-    let content = (await $read_(source) as Buffer).toString()
+    let content = await $read_<string>(source)
+    if (!content) return
 
     if (!content.includes('include/basic')) {
       const _source = path.relative(source, './src/include/basic.styl')
@@ -50,8 +49,8 @@ class Compiler {
 
     this.isBusy = true
 
-    const source = this.list.shift() as string
-    if (source.endsWith('.styl')) await this.compileStyl(source)
+    const source = this.list.shift()
+    if (source.endsWith('.styl')) await Compiler.compileStyl(source)
     else await $compile_(source)
 
     this.isBusy = false
